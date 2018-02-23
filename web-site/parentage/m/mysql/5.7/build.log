@@ -1,0 +1,545 @@
+Sending build context to Docker daemon   12.8kB
+Step 1/17 : FROM debian:jessie
+ ---> 2fe79f06fa6d
+Step 2/17 : RUN groupadd -r mysql && useradd -r -g mysql mysql
+ ---> Running in 5ddfbfa93b3b
+Removing intermediate container 5ddfbfa93b3b
+ ---> db6001a604c6
+Step 3/17 : ENV GOSU_VERSION 1.7
+ ---> Running in fcdac403cf5e
+Removing intermediate container fcdac403cf5e
+ ---> 5d9718a9283b
+Step 4/17 : RUN set -x 	&& apt-get update && apt-get install -y --no-install-recommends ca-certificates wget && rm -rf /var/lib/apt/lists/* 	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" 	&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" 	&& export GNUPGHOME="$(mktemp -d)" 	&& gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 	&& gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu 	&& rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc 	&& chmod +x /usr/local/bin/gosu 	&& gosu nobody true 	&& apt-get purge -y --auto-remove ca-certificates wget
+ ---> Running in 4860760f7c7e
+[91m+ apt-get update
+[0mGet:1 http://security.debian.org jessie/updates InRelease [63.1 kB]
+Ign http://deb.debian.org jessie InRelease
+Get:2 http://deb.debian.org jessie-updates InRelease [145 kB]
+Get:3 http://deb.debian.org jessie Release.gpg [2434 B]
+Get:4 http://deb.debian.org jessie Release [148 kB]
+Get:5 http://security.debian.org jessie/updates/main amd64 Packages [629 kB]
+Get:6 http://deb.debian.org jessie-updates/main amd64 Packages [23.1 kB]
+Get:7 http://deb.debian.org jessie/main amd64 Packages [9064 kB]
+Fetched 10.1 MB in 12s (793 kB/s)
+Reading package lists...
+[91m+ apt-get install -y --no-install-recommends ca-certificates wget
+[0mReading package lists...
+Building dependency tree...
+Reading state information...
+The following extra packages will be installed:
+  libffi6 libgmp10 libgnutls-deb0-28 libhogweed2 libicu52 libidn11 libnettle4
+  libp11-kit0 libpsl0 libssl1.0.0 libtasn1-6 openssl
+Suggested packages:
+  gnutls-bin
+The following NEW packages will be installed:
+  ca-certificates libffi6 libgmp10 libgnutls-deb0-28 libhogweed2 libicu52
+  libidn11 libnettle4 libp11-kit0 libpsl0 libssl1.0.0 libtasn1-6 openssl wget
+0 upgraded, 14 newly installed, 0 to remove and 5 not upgraded.
+Need to get 10.8 MB of archives.
+After this operation, 39.1 MB of additional disk space will be used.
+Get:1 http://deb.debian.org/debian/ jessie/main libssl1.0.0 amd64 1.0.1t-1+deb8u7 [1046 kB]
+Get:2 http://deb.debian.org/debian/ jessie/main libgmp10 amd64 2:6.0.0+dfsg-6 [253 kB]
+Get:3 http://deb.debian.org/debian/ jessie/main libnettle4 amd64 2.7.1-5+deb8u2 [176 kB]
+Get:4 http://deb.debian.org/debian/ jessie/main libhogweed2 amd64 2.7.1-5+deb8u2 [125 kB]
+Get:5 http://deb.debian.org/debian/ jessie/main libffi6 amd64 3.1-2+deb8u1 [20.2 kB]
+Get:6 http://deb.debian.org/debian/ jessie/main libp11-kit0 amd64 0.20.7-1 [81.2 kB]
+Get:7 http://deb.debian.org/debian/ jessie/main libtasn1-6 amd64 4.2-3+deb8u3 [49.2 kB]
+Get:8 http://deb.debian.org/debian/ jessie/main libgnutls-deb0-28 amd64 3.3.8-6+deb8u7 [696 kB]
+Get:9 http://deb.debian.org/debian/ jessie/main libidn11 amd64 1.29-1+deb8u2 [136 kB]
+Get:10 http://deb.debian.org/debian/ jessie/main libicu52 amd64 52.1-8+deb8u6 [6804 kB]
+Get:11 http://deb.debian.org/debian/ jessie/main libpsl0 amd64 0.5.1-1 [41.6 kB]
+Get:12 http://deb.debian.org/debian/ jessie/main wget amd64 1.16-1+deb8u4 [496 kB]
+Get:13 http://deb.debian.org/debian/ jessie/main openssl amd64 1.0.1t-1+deb8u7 [665 kB]
+Get:14 http://deb.debian.org/debian/ jessie/main ca-certificates all 20141019+deb8u3 [207 kB]
+[91mdebconf: delaying package configuration, since apt-utils is not installed
+[0mFetched 10.8 MB in 3s (2964 kB/s)
+Selecting previously unselected package libssl1.0.0:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 7561 files and directories currently installed.)
+Preparing to unpack .../libssl1.0.0_1.0.1t-1+deb8u7_amd64.deb ...
+Unpacking libssl1.0.0:amd64 (1.0.1t-1+deb8u7) ...
+Selecting previously unselected package libgmp10:amd64.
+Preparing to unpack .../libgmp10_2%3a6.0.0+dfsg-6_amd64.deb ...
+Unpacking libgmp10:amd64 (2:6.0.0+dfsg-6) ...
+Selecting previously unselected package libnettle4:amd64.
+Preparing to unpack .../libnettle4_2.7.1-5+deb8u2_amd64.deb ...
+Unpacking libnettle4:amd64 (2.7.1-5+deb8u2) ...
+Selecting previously unselected package libhogweed2:amd64.
+Preparing to unpack .../libhogweed2_2.7.1-5+deb8u2_amd64.deb ...
+Unpacking libhogweed2:amd64 (2.7.1-5+deb8u2) ...
+Selecting previously unselected package libffi6:amd64.
+Preparing to unpack .../libffi6_3.1-2+deb8u1_amd64.deb ...
+Unpacking libffi6:amd64 (3.1-2+deb8u1) ...
+Selecting previously unselected package libp11-kit0:amd64.
+Preparing to unpack .../libp11-kit0_0.20.7-1_amd64.deb ...
+Unpacking libp11-kit0:amd64 (0.20.7-1) ...
+Selecting previously unselected package libtasn1-6:amd64.
+Preparing to unpack .../libtasn1-6_4.2-3+deb8u3_amd64.deb ...
+Unpacking libtasn1-6:amd64 (4.2-3+deb8u3) ...
+Selecting previously unselected package libgnutls-deb0-28:amd64.
+Preparing to unpack .../libgnutls-deb0-28_3.3.8-6+deb8u7_amd64.deb ...
+Unpacking libgnutls-deb0-28:amd64 (3.3.8-6+deb8u7) ...
+Selecting previously unselected package libidn11:amd64.
+Preparing to unpack .../libidn11_1.29-1+deb8u2_amd64.deb ...
+Unpacking libidn11:amd64 (1.29-1+deb8u2) ...
+Selecting previously unselected package libicu52:amd64.
+Preparing to unpack .../libicu52_52.1-8+deb8u6_amd64.deb ...
+Unpacking libicu52:amd64 (52.1-8+deb8u6) ...
+Selecting previously unselected package libpsl0:amd64.
+Preparing to unpack .../libpsl0_0.5.1-1_amd64.deb ...
+Unpacking libpsl0:amd64 (0.5.1-1) ...
+Selecting previously unselected package wget.
+Preparing to unpack .../wget_1.16-1+deb8u4_amd64.deb ...
+Unpacking wget (1.16-1+deb8u4) ...
+Selecting previously unselected package openssl.
+Preparing to unpack .../openssl_1.0.1t-1+deb8u7_amd64.deb ...
+Unpacking openssl (1.0.1t-1+deb8u7) ...
+Selecting previously unselected package ca-certificates.
+Preparing to unpack .../ca-certificates_20141019+deb8u3_all.deb ...
+Unpacking ca-certificates (20141019+deb8u3) ...
+Setting up libssl1.0.0:amd64 (1.0.1t-1+deb8u7) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (TERM is not set, so the dialog frontend is not usable.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.20.2 /usr/local/share/perl/5.20.2 /usr/lib/x86_64-linux-gnu/perl5/5.20 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl/5.20 /usr/share/perl/5.20 /usr/local/lib/site_perl .) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+debconf: falling back to frontend: Teletype
+Setting up libgmp10:amd64 (2:6.0.0+dfsg-6) ...
+Setting up libnettle4:amd64 (2.7.1-5+deb8u2) ...
+Setting up libhogweed2:amd64 (2.7.1-5+deb8u2) ...
+Setting up libffi6:amd64 (3.1-2+deb8u1) ...
+Setting up libp11-kit0:amd64 (0.20.7-1) ...
+Setting up libtasn1-6:amd64 (4.2-3+deb8u3) ...
+Setting up libgnutls-deb0-28:amd64 (3.3.8-6+deb8u7) ...
+Setting up libidn11:amd64 (1.29-1+deb8u2) ...
+Setting up libicu52:amd64 (52.1-8+deb8u6) ...
+Setting up libpsl0:amd64 (0.5.1-1) ...
+Setting up wget (1.16-1+deb8u4) ...
+Setting up openssl (1.0.1t-1+deb8u7) ...
+Setting up ca-certificates (20141019+deb8u3) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (TERM is not set, so the dialog frontend is not usable.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.20.2 /usr/local/share/perl/5.20.2 /usr/lib/x86_64-linux-gnu/perl5/5.20 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl/5.20 /usr/share/perl/5.20 /usr/local/lib/site_perl .) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+debconf: falling back to frontend: Teletype
+Updating certificates in /etc/ssl/certs... 174 added, 0 removed; done.
+Processing triggers for libc-bin (2.19-18+deb8u10) ...
+Processing triggers for ca-certificates (20141019+deb8u3) ...
+Updating certificates in /etc/ssl/certs... 0 added, 0 removed; done.
+Running hooks in /etc/ca-certificates/update.d....done.
+[91m+ rm -rf /var/lib/apt/lists/deb.debian.org_debian_dists_jessie-updates_InRelease /var/lib/apt/lists/deb.debian.org_debian_dists_jessie-updates_main_binary-amd64_Packages.gz /var/lib/apt/lists/deb.debian.org_debian_dists_jessie_Release /var/lib/apt/lists/deb.debian.org_debian_dists_jessie_Release.gpg[0m[91m /var/lib/apt/lists/deb.debian.org_debian_dists_jessie_main_binary-amd64_Packages.gz[0m[91m /var/lib/apt/lists/lock[0m[91m /var/lib/apt/lists/partial /var/lib/apt/lists/security.debian.org_dists_jessie_updates_InRelease /var/lib/apt/lists/security.debian.org_dists_jessie_updates_main_binary-amd64_Packages.gz
+[0m[91m+ dpkg --print-architecture
+[0m[91m+ wget -O /usr/local/bin/gosu https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64
+[0m[91mconverted 'https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64' (ANSI_X3.4-1968) -> 'https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64' (UTF-8)
+[0m[91m--2018-02-19 21:38:34--  https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64
+[0m[91mResolving github.com (github.com)... [0m[91m192.30.253.112, 192.30.253.113
+Connecting to github.com (github.com)|192.30.253.112|:443... [0m[91mconnected.
+[0m[91mHTTP request sent, awaiting response... [0m[91m302 Found
+Location: https://github-production-release-asset-2e65be.s3.amazonaws.com/19708981/40d1b00c-8619-11e5-8953-d0122dcf07b9?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20180219%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180219T213838Z&X-Amz-Expires=300&X-Amz-Signature=1b52d73458f479fad1e25f011322b58e2e85f69697587b42ae9763672621569e&X-Amz-SignedHeaders=host&actor_id=0&response-content-disposition=attachment%3B%20filename%3Dgosu-amd64&response-content-type=application%2Foctet-stream [following]
+converted 'https://github-production-release-asset-2e65be.s3.amazonaws.com/19708981/40d1b00c-8619-11e5-8953-d0122dcf07b9?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20180219%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180219T213838Z&X-Amz-Expires=300&X-Amz-Signature=1b52d73458f479fad1e25f011322b58e2e85f69697587b42ae9763672621569e&X-Amz-SignedHeaders=host&actor_id=0&response-content-disposition=attachment%3B%20filename%3Dgosu-amd64&response-content-type=application%2Foctet-stream' (ANSI_X3.4-1968) -> 'https://github-production-release-asset-2e65be.s3.amazonaws.com/19708981/40d1b00c-8619-11e5-8953-d0122dcf07b9?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A/20180219/us-east-1/s3/aws4_request&X-Amz-Date=20180219T213838Z&X-Amz-Expires=300&X-Amz-Signature=1b52d73458f479fad1e25f011322b58e2e85f69697587b42ae9763672621569e&X-Amz-SignedHeaders=host&actor_id=0&response-content-disposition=attachment; filename=gosu-amd64&response-content-type=application/octet-stream' (UTF-8)
+--2018-02-19 21:38:35--  https://github-production-release-asset-2e65be.s3.amazonaws.com/19708981/40d1b00c-8619-11e5-8953-d0122dcf07b9?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A/20180219/us-east-1/s3/aws4_request&X-Amz-Date=20180219T213838Z&X-Amz-Expires=300&X-Amz-Signature=1b52d73458f479fad1e25f011322b58e2e85f69697587b42ae9763672621569e&X-Amz-SignedHeaders=host&actor_id=0&response-content-disposition=attachment;%20filename=gosu-amd64&response-content-type=application/octet-stream
+Resolving github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)... [0m[91m52.216.230.219
+Connecting to github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)|52.216.230.219|:443... [0m[91mconnected.
+[0m[91mHTTP request sent, awaiting response... [0m[91m200 OK
+Length: 2698808 (2.6M) [application/octet-stream]
+Saving to: '/usr/local/bin/gosu'
+[0m[91m
+     0K .......... ......[0m[91m.... .......... ...[0m[91m....... ..........  1%  425K 6s[0m[91m
+    50K .......... .......[0m[91m... .......... ....[0m[91m...... ..........  3%  644K 5s[0m[91m
+   100K .......... .......[0m[91m... .......... .......... ..........  5% 1.24M 4s
+   150K ..[0m[91m........ .........[0m[91m. .......... ......[0m[91m.... ..........  7%  643K 4s
+   200K ...[0m[91m....... ..........[0m[91m .......... .......[0m[91m... ..........  9% 1.26M 3s
+   250K ....[0m[91m...... .......... .[0m[91m......... ........[0m[91m.. .......... 11% 8.26M 3s
+   300K .....[0m[91m..... .......... .......... .........[0m[91m. .......... 13% 1.28M 3s
+   350K ......[0m[91m.... .......... ...[0m[91m....... ..........[0m[91m .......... 15% 1.33M 2s
+   400K .......[0m[91m... .......... ...[0m[91m.[0m[91m...... .......... .[0m[91m......... 17% 7.39M 2s
+   450K ........[0m[91m.. .......... .......... .......... ..[0m[91m........ 18% 1.31M 2s
+   500K .......... .......... ......[0m[91m.... .....[0m[91m..... ..[0m[91m.[0m[91m....... 20% 8.63M 2s
+   550K ..........[0m[91m .......... .......[0m[91m... .......... ....[0m[91m...... 22% 1.59M 2s
+   600K .......... .[0m[91m......... ........[0m[91m.. .......... .....[0m[91m..... 24% 12.2M 2s
+   650K .......... .[0m[91m.[0m[91m........ ........[0m[91m.. .......... ......[0m[91m.... 26% 1.50M 2s
+   700K .......... ...[0m[91m....... ..........[0m[91m .......... .......[0m[91m... 28% 11.9M 1s
+   750K .......... ....[0m[91m...... .......... .[0m[91m......... ........[0m[91m.. 30% 11.6M 1s
+   800K .......... .....[0m[91m..... .......... ..[0m[91m........ .......... 32% 1.57M 1s
+   850K .......... ......[0m[91m.... .......... .......... .......... 34% 14.3M 1s[0m[91m
+   900K .......... ......[0m[91m.... .......... ....[0m[91m...... .......... 36% 9.18M 1s
+   950K .[0m[91m......... .......[0m[91m.[0m[91m.. .......... .....[0m[91m..... .......... 37% 1.63M 1s
+  1000K ..[0m[91m........ ........[0m[91m.. .......... .....[0m[91m.[0m[91m.... ....[0m[91m...... 39% 22.7M 1s
+  1050K [0m[91m..[0m[91m.[0m[91m....... ..........[0m[91m ........[0m[91m.. ......[0m[91m.[0m[91m... .......... 41% 22.6M 1s
+  1100K ....[0m[91m...... ...[0m[91m.......[0m[91m .[0m[91m......... ........[0m[91m.. .......... 43% 14.3M 1s
+  1150K .....[0m[91m..... ...[0m[91m....... ..[0m[91m........ .......... .......... 45% 1.58M 1s
+  1200K ......[0m[91m.... .......... ...[0m[91m....... ..........[0m[91m .......... 47% 5.32M 1s
+  1250K .......... .......... ....[0m[91m...... .......... .......... 49%  125M 1s
+  1300K .......... .......... .......... .......... ..[0m[91m........ 51%  134M 1s
+  1350K .........[0m[91m. .......... ......[0m[91m.... .......... ...[0m[91m....... 53% 1.73M 1s
+  1400K ..........[0m[91m .......... .......[0m[91m... .......... ...[0m[91m.[0m[91m...... 55% 25.7M 1s
+  1450K ..........[0m[91m .[0m[91m......... .......[0m[91m.[0m[91m.. .......... .....[0m[91m..... 56% 43.1M 1s
+  1500K .......... .[0m[91m.[0m[91m........ .........[0m[91m. .......... .......... 58% 21.5M 0s
+  1550K .......... .......... .......... .......... .......... 60% 35.4M 0s
+  1600K .......... .......... .......... .[0m[91m......... ........[0m[91m.. 62% 19.2M 0s
+  1650K .......... .......... .......... .[0m[91m.[0m[91m........ ........[0m[91m.. 64% 1.61M 0s
+  1700K .......... ......[0m[91m.... .......... ..[0m[91m........ .......... 66% 48.7M 0s
+  1750K .......... .......... .......... ....[0m[91m...... .......... 68% 41.0M 0s
+  1800K .......... ........[0m[91m.. .......... .....[0m[91m..... .......... 70% 25.8M 0s
+  1850K .......... ..[0m[91m........ .......... ..[0m[91m........ .......... 72% 51.3M 0s
+  1900K ..[0m[91m.[0m[91m....... .[0m[91m.........[0m[91m .......... .......... .......... 73% 25.7M 0s
+  1950K ....[0m[91m...... .......... .[0m[91m........[0m[91m. .......[0m[91m.[0m[91m.. .......... 75% 51.5M 0s
+  2000K .....[0m[91m..... .......... ..[0m[91m........ .........[0m[91m. .......... 77% 1.62M 0s
+  2050K .......... .......... ...[0m[91m....... .......... .......... 79% 26.1M 0s
+  2100K .......... .......... .......... .......... .......... 81% 97.2M 0s
+  2150K ........[0m[91m.. .......... .......... .......... ..[0m[91m........ 83% 27.1M 0s
+  2200K .......... .......... .......... .......... ...[0m[91m....... 85% 14.2M 0s
+  2250K .......... .......... .......... .......... .......... 87%  150M 0s
+  2300K .......... .......... .......... .......... .......... 89% 86.8M 0s
+  2350K .......... .......... .......... .......... .......... 91%  118M 0s
+  2400K .......... ...[0m[91m....... .......... .......... .......[0m[91m... 92% 1.63M 0s
+  2450K .......... .......... .......... .[0m[91m......... .......... 94% 21.5M 0s
+  2500K .......... .....[0m[91m..... .......... .......... .......... 96% 30.3M 0s
+  2550K .......... .......... .......... .......... .......... 98%  148M 0s
+  2600K .......... .......... .......... .....                100%  123M=0.8s
+
+2018-02-19 21:38:36 (3.12 MB/s) - '/usr/local/bin/gosu' saved [2698808/2698808]
+
+[0m[91m+ [0m[91mdpkg[0m[91m --print-architecture[0m[91m
+[0m[91m+ [0m[91mwget[0m[91m -O[0m[91m /usr/local/bin/gosu.asc[0m[91m https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64.asc[0m[91m
+[0m[91mconverted 'https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64.asc' (ANSI_X3.4-1968) -> 'https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64.asc' (UTF-8)
+[0m[91m--2018-02-19 21:38:36--  https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64.asc
+[0m[91mResolving github.com (github.com)... [0m[91m192.30.253.113, 192.30.253.112
+Connecting to github.com (github.com)|192.30.253.113|:443... [0m[91mconnected.
+[0m[91mHTTP request sent, awaiting response... [0m[91m302 Found
+Location: https://github-production-release-asset-2e65be.s3.amazonaws.com/19708981/40e5b35e-8619-11e5-98cb-8377dd5f2aac?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20180219%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180219T213839Z&X-Amz-Expires=300&X-Amz-Signature=e7cb2ec25ed806448f47f908410e36e23c69fa05673447789339c4a4a24fcb71&X-Amz-SignedHeaders=host&actor_id=0&response-content-disposition=attachment%3B%20filename%3Dgosu-amd64.asc&response-content-type=application%2Foctet-stream [following]
+converted 'https://github-production-release-asset-2e65be.s3.amazonaws.com/19708981/40e5b35e-8619-11e5-98cb-8377dd5f2aac?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20180219%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180219T213839Z&X-Amz-Expires=300&X-Amz-Signature=e7cb2ec25ed806448f47f908410e36e23c69fa05673447789339c4a4a24fcb71&X-Amz-SignedHeaders=host&actor_id=0&response-content-disposition=attachment%3B%20filename%3Dgosu-amd64.asc&response-content-type=application%2Foctet-stream' (ANSI_X3.4-1968) -> 'https://github-production-release-asset-2e65be.s3.amazonaws.com/19708981/40e5b35e-8619-11e5-98cb-8377dd5f2aac?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A/20180219/us-east-1/s3/aws4_request&X-Amz-Date=20180219T213839Z&X-Amz-Expires=300&X-Amz-Signature=e7cb2ec25ed806448f47f908410e36e23c69fa05673447789339c4a4a24fcb71&X-Amz-SignedHeaders=host&actor_id=0&response-content-disposition=attachment; filename=gosu-amd64.asc&response-content-type=application/octet-stream' (UTF-8)
+--2018-02-19 21:38:36--  https://github-production-release-asset-2e65be.s3.amazonaws.com/19708981/40e5b35e-8619-11e5-98cb-8377dd5f2aac?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A/20180219/us-east-1/s3/aws4_request&X-Amz-Date=20180219T213839Z&X-Amz-Expires=300&X-Amz-Signature=e7cb2ec25ed806448f47f908410e36e23c69fa05673447789339c4a4a24fcb71&X-Amz-SignedHeaders=host&actor_id=0&response-content-disposition=attachment;%20filename=gosu-amd64.asc&response-content-type=application/octet-stream
+Resolving github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)... [0m[91m52.216.18.80
+Connecting to github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)|52.216.18.80|:443... [0m[91mconnected.
+[0m[91mHTTP request sent, awaiting response... [0m[91m200 OK
+[0m[91mLength: 543 [application/octet-stream]
+Saving to: '/usr/local/bin/gosu.asc'
+
+     0K                                                       100% 9.27M=0s
+
+[0m[91m2018-02-19 21:38:36 (9.27 MB/s) - '/usr/local/bin/gosu.asc' saved [543/543]
+
+[0m[91m+ mktemp -d
++ export GNUPGHOME=/tmp/tmp.9P6I4CA3Mp
++ gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
+[0m[91mgpg: keyring `/tmp/tmp.9P6I4CA3Mp/secring.gpg' created
+gpg: keyring `/tmp/tmp.9P6I4CA3Mp/pubring.gpg' created
+[0m[91mgpg: requesting key BF357DD4 from hkp server ha.pool.sks-keyservers.net
+[0m[91mgpg: /tmp/tmp.9P6I4CA3Mp/trustdb.gpg: trustdb created
+[0m[91mgpg: key BF357DD4: public key "Tianon Gravi <tianon@tianon.xyz>" imported
+[0m[91mgpg: no ultimately trusted keys found
+[0m[91mgpg: Total number processed: 1
+gpg:               imported: 1  (RSA: 1)
+[0m[91m+ gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu
+[0m[91mgpg: Signature made Sun Nov  8 21:04:08 2015 UTC using RSA key ID BF357DD4
+[0m[91mgpg: Good signature from "Tianon Gravi <tianon@tianon.xyz>"
+gpg:                 aka "Tianon Gravi <tianon@debian.org>"
+gpg:                 aka "Tianon Gravi <tianon@dockerproject.org>"
+gpg:                 aka "Andrew Page (tianon) <andrew@infosiftr.com>"
+gpg:                 aka "Andrew Page (tianon) <andrew@vitalroute.com>"
+gpg:                 aka "Andrew Page (Tianon Gravi) <admwiggin@gmail.com>"
+gpg:                 aka "Tianon Gravi (Andrew Page) <tianon@infosiftr.com>"[0m[91m
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: B42F 6819 007F 00F8 8E36  4FD4 036A 9C25 BF35 7DD4
+[0m[91m+ rm -r /tmp/tmp.9P6I4CA3Mp /usr/local/bin/gosu.asc
+[0m[91m+ chmod +x /usr/local/bin/gosu
+[0m[91m+ gosu nobody true
+[0m[91m+ apt-get purge -y --auto-remove ca-certificates wget
+[0mReading package lists...
+Building dependency tree...
+Reading state information...
+The following packages will be REMOVED:
+  ca-certificates* libffi6* libgmp10* libgnutls-deb0-28* libhogweed2*
+  libicu52* libidn11* libnettle4* libp11-kit0* libpsl0* libssl1.0.0*
+  libtasn1-6* openssl* wget*
+0 upgraded, 0 newly installed, 14 to remove and 0 not upgraded.
+After this operation, 39.1 MB disk space will be freed.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 8035 files and directories currently installed.)
+Removing ca-certificates (20141019+deb8u3) ...
+Removing dangling symlinks from /etc/ssl/certs... done.
+Purging configuration files for ca-certificates (20141019+deb8u3) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (TERM is not set, so the dialog frontend is not usable.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.20.2 /usr/local/share/perl/5.20.2 /usr/lib/x86_64-linux-gnu/perl5/5.20 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl/5.20 /usr/share/perl/5.20 /usr/local/lib/site_perl .) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+debconf: falling back to frontend: Teletype
+Removing dangling symlinks from /etc/ssl/certs... done.
+Removing wget (1.16-1+deb8u4) ...
+Purging configuration files for wget (1.16-1+deb8u4) ...
+Removing libgnutls-deb0-28:amd64 (3.3.8-6+deb8u7) ...
+Purging configuration files for libgnutls-deb0-28:amd64 (3.3.8-6+deb8u7) ...
+Removing libp11-kit0:amd64 (0.20.7-1) ...
+Purging configuration files for libp11-kit0:amd64 (0.20.7-1) ...
+Removing libffi6:amd64 (3.1-2+deb8u1) ...
+Purging configuration files for libffi6:amd64 (3.1-2+deb8u1) ...
+Removing libhogweed2:amd64 (2.7.1-5+deb8u2) ...
+Purging configuration files for libhogweed2:amd64 (2.7.1-5+deb8u2) ...
+Removing libgmp10:amd64 (2:6.0.0+dfsg-6) ...
+Purging configuration files for libgmp10:amd64 (2:6.0.0+dfsg-6) ...
+Removing libpsl0:amd64 (0.5.1-1) ...
+Purging configuration files for libpsl0:amd64 (0.5.1-1) ...
+Removing libicu52:amd64 (52.1-8+deb8u6) ...
+Purging configuration files for libicu52:amd64 (52.1-8+deb8u6) ...
+Removing libidn11:amd64 (1.29-1+deb8u2) ...
+Purging configuration files for libidn11:amd64 (1.29-1+deb8u2) ...
+Removing libnettle4:amd64 (2.7.1-5+deb8u2) ...
+Purging configuration files for libnettle4:amd64 (2.7.1-5+deb8u2) ...
+Removing openssl (1.0.1t-1+deb8u7) ...
+Purging configuration files for openssl (1.0.1t-1+deb8u7) ...
+Removing libssl1.0.0:amd64 (1.0.1t-1+deb8u7) ...
+Purging configuration files for libssl1.0.0:amd64 (1.0.1t-1+deb8u7) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (TERM is not set, so the dialog frontend is not usable.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.20.2 /usr/local/share/perl/5.20.2 /usr/lib/x86_64-linux-gnu/perl5/5.20 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl/5.20 /usr/share/perl/5.20 /usr/local/lib/site_perl .) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+debconf: falling back to frontend: Teletype
+Removing libtasn1-6:amd64 (4.2-3+deb8u3) ...
+Purging configuration files for libtasn1-6:amd64 (4.2-3+deb8u3) ...
+Processing triggers for libc-bin (2.19-18+deb8u10) ...
+Removing intermediate container 4860760f7c7e
+ ---> c6af95b4e81d
+Step 5/17 : RUN mkdir /docker-entrypoint-initdb.d
+ ---> Running in 8af20252dd56
+Removing intermediate container 8af20252dd56
+ ---> e5a93bcf6153
+Step 6/17 : RUN apt-get update && apt-get install -y --no-install-recommends 		pwgen 		openssl 		perl 	&& rm -rf /var/lib/apt/lists/*
+ ---> Running in 169ef8547b4d
+Get:1 http://security.debian.org jessie/updates InRelease [63.1 kB]
+Ign http://deb.debian.org jessie InRelease
+Get:2 http://deb.debian.org jessie-updates InRelease [145 kB]
+Get:3 http://security.debian.org jessie/updates/main amd64 Packages [629 kB]
+Get:4 http://deb.debian.org jessie Release.gpg [2434 B]
+Get:5 http://deb.debian.org jessie Release [148 kB]
+Get:6 http://deb.debian.org jessie-updates/main amd64 Packages [23.1 kB]
+Get:7 http://deb.debian.org jessie/main amd64 Packages [9064 kB]
+Fetched 10.1 MB in 10s (918 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following extra packages will be installed:
+  libgdbm3 libssl1.0.0 perl-modules
+Suggested packages:
+  ca-certificates perl-doc libterm-readline-gnu-perl
+  libterm-readline-perl-perl make libb-lint-perl libcpanplus-dist-build-perl
+  libcpanplus-perl libfile-checktree-perl liblog-message-simple-perl
+  liblog-message-perl libobject-accessor-perl
+Recommended packages:
+  rename libarchive-extract-perl libmodule-pluggable-perl libpod-latex-perl
+  libterm-ui-perl libtext-soundex-perl libcgi-pm-perl libmodule-build-perl
+  libpackage-constants-perl
+The following NEW packages will be installed:
+  libgdbm3 libssl1.0.0 openssl perl perl-modules pwgen
+0 upgraded, 6 newly installed, 0 to remove and 5 not upgraded.
+Need to get 6954 kB of archives.
+After this operation, 37.4 MB of additional disk space will be used.
+Get:1 http://deb.debian.org/debian/ jessie/main libgdbm3 amd64 1.8.3-13.1 [30.0 kB]
+Get:2 http://deb.debian.org/debian/ jessie/main libssl1.0.0 amd64 1.0.1t-1+deb8u7 [1046 kB]
+Get:3 http://deb.debian.org/debian/ jessie/main perl-modules all 5.20.2-3+deb8u9 [2553 kB]
+Get:4 http://deb.debian.org/debian/ jessie/main perl amd64 5.20.2-3+deb8u9 [2641 kB]
+Get:5 http://deb.debian.org/debian/ jessie/main openssl amd64 1.0.1t-1+deb8u7 [665 kB]
+Get:6 http://deb.debian.org/debian/ jessie/main pwgen amd64 2.07-1 [18.1 kB]
+[91mdebconf: delaying package configuration, since apt-utils is not installed
+[0mFetched 6954 kB in 3s (2270 kB/s)
+Selecting previously unselected package libgdbm3:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 7561 files and directories currently installed.)
+Preparing to unpack .../libgdbm3_1.8.3-13.1_amd64.deb ...
+Unpacking libgdbm3:amd64 (1.8.3-13.1) ...
+Selecting previously unselected package libssl1.0.0:amd64.
+Preparing to unpack .../libssl1.0.0_1.0.1t-1+deb8u7_amd64.deb ...
+Unpacking libssl1.0.0:amd64 (1.0.1t-1+deb8u7) ...
+Selecting previously unselected package perl-modules.
+Preparing to unpack .../perl-modules_5.20.2-3+deb8u9_all.deb ...
+Unpacking perl-modules (5.20.2-3+deb8u9) ...
+Selecting previously unselected package perl.
+Preparing to unpack .../perl_5.20.2-3+deb8u9_amd64.deb ...
+Unpacking perl (5.20.2-3+deb8u9) ...
+Selecting previously unselected package openssl.
+Preparing to unpack .../openssl_1.0.1t-1+deb8u7_amd64.deb ...
+Unpacking openssl (1.0.1t-1+deb8u7) ...
+Selecting previously unselected package pwgen.
+Preparing to unpack .../pwgen_2.07-1_amd64.deb ...
+Unpacking pwgen (2.07-1) ...
+Setting up libgdbm3:amd64 (1.8.3-13.1) ...
+Setting up libssl1.0.0:amd64 (1.0.1t-1+deb8u7) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (TERM is not set, so the dialog frontend is not usable.)
+debconf: falling back to frontend: Readline
+Setting up perl-modules (5.20.2-3+deb8u9) ...
+Setting up perl (5.20.2-3+deb8u9) ...
+update-alternatives: using /usr/bin/prename to provide /usr/bin/rename (rename) in auto mode
+Setting up openssl (1.0.1t-1+deb8u7) ...
+Setting up pwgen (2.07-1) ...
+Processing triggers for libc-bin (2.19-18+deb8u10) ...
+Removing intermediate container 169ef8547b4d
+ ---> efff12a1197e
+Step 7/17 : RUN set -ex; 	key='A4A9406876FCBD3C456770C88C718D3B5072E1F5'; 	export GNUPGHOME="$(mktemp -d)"; 	gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; 	gpg --export "$key" > /etc/apt/trusted.gpg.d/mysql.gpg; 	rm -r "$GNUPGHOME"; 	apt-key list > /dev/null
+ ---> Running in 99a1c513787e
+[91m+ key=A4A9406876FCBD3C456770C88C718D3B5072E1F5
+[0m[91m+ mktemp -d
+[0m[91m+ export GNUPGHOME=/tmp/tmp.Ee5t4XSrPY
++ gpg --keyserver ha.pool.sks-keyservers.net --recv-keys A4A9406876FCBD3C456770C88C718D3B5072E1F5
+[0m[91mgpg: keyring `/tmp/tmp.Ee5t4XSrPY/secring.gpg' created
+gpg: keyring `/tmp/tmp.Ee5t4XSrPY/pubring.gpg' created
+gpg: requesting key 5072E1F5 from hkp server ha.pool.sks-keyservers.net
+[0m[91mgpg: [0m[91m/tmp/tmp.Ee5t4XSrPY/trustdb.gpg: trustdb created
+[0m[91mgpg: [0m[91mkey 5072E1F5: public key "MySQL Release Engineering <mysql-build@oss.oracle.com>" imported
+[0m[91mgpg: [0m[91mno ultimately trusted keys found
+gpg: Total number processed: 1
+gpg:               imported: 1
+[0m[91m+ [0m[91mgpg[0m[91m --export[0m[91m A4A9406876FCBD3C456770C88C718D3B5072E1F5[0m[91m
+[0m[91m+ [0m[91mrm[0m[91m -r[0m[91m /tmp/tmp.Ee5t4XSrPY[0m[91m
+[0m[91m+ [0m[91mapt-key[0m[91m list[0m[91m
+[0mRemoving intermediate container 99a1c513787e
+ ---> 690308eb9aec
+Step 8/17 : ENV MYSQL_MAJOR 5.7
+ ---> Running in 192c4edaf7c7
+Removing intermediate container 192c4edaf7c7
+ ---> a4cb2d58b6cf
+Step 9/17 : ENV MYSQL_VERSION 5.7.21-1debian8
+ ---> Running in 155a25ed6238
+Removing intermediate container 155a25ed6238
+ ---> 649ae0ca19d6
+Step 10/17 : RUN echo "deb http://repo.mysql.com/apt/debian/ jessie mysql-${MYSQL_MAJOR}" > /etc/apt/sources.list.d/mysql.list
+ ---> Running in 01c1e80da89c
+Removing intermediate container 01c1e80da89c
+ ---> 7499f578911d
+Step 11/17 : RUN { 		echo mysql-community-server mysql-community-server/data-dir select ''; 		echo mysql-community-server mysql-community-server/root-pass password ''; 		echo mysql-community-server mysql-community-server/re-root-pass password ''; 		echo mysql-community-server mysql-community-server/remove-test-db select false; 	} | debconf-set-selections 	&& apt-get update && apt-get install -y mysql-server="${MYSQL_VERSION}" && rm -rf /var/lib/apt/lists/* 	&& rm -rf /var/lib/mysql && mkdir -p /var/lib/mysql /var/run/mysqld 	&& chown -R mysql:mysql /var/lib/mysql /var/run/mysqld 	&& chmod 777 /var/run/mysqld 	&& find /etc/mysql/ -name '*.cnf' -print0 		| xargs -0 grep -lZE '^(bind-address|log)' 		| xargs -rt -0 sed -Ei 's/^(bind-address|log)/#&/' 	&& echo '[mysqld]\nskip-host-cache\nskip-name-resolve' > /etc/mysql/conf.d/docker.cnf
+ ---> Running in 81f6fbb1f772
+Get:1 http://security.debian.org jessie/updates InRelease [63.1 kB]
+Get:2 http://repo.mysql.com jessie InRelease [28.8 kB]
+Ign http://deb.debian.org jessie InRelease
+Get:3 http://deb.debian.org jessie-updates InRelease [145 kB]
+Get:4 http://deb.debian.org jessie Release.gpg [2434 B]
+Get:5 http://deb.debian.org jessie Release [148 kB]
+Get:6 http://security.debian.org jessie/updates/main amd64 Packages [629 kB]
+Get:7 http://repo.mysql.com jessie/mysql-5.7 amd64 Packages [2842 B]
+Get:8 http://deb.debian.org jessie-updates/main amd64 Packages [23.1 kB]
+Get:9 http://deb.debian.org jessie/main amd64 Packages [9064 kB]
+Fetched 10.1 MB in 15s (670 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following extra packages will be installed:
+  init-system-helpers libaio1 libmecab2 libnuma1 libsasl2-2 libsasl2-modules
+  libsasl2-modules-db mysql-client mysql-common mysql-community-client
+  mysql-community-server psmisc
+Suggested packages:
+  libsasl2-modules-otp libsasl2-modules-ldap libsasl2-modules-sql
+  libsasl2-modules-gssapi-mit libsasl2-modules-gssapi-heimdal
+The following NEW packages will be installed:
+  init-system-helpers libaio1 libmecab2 libnuma1 libsasl2-2 libsasl2-modules
+  libsasl2-modules-db mysql-client mysql-common mysql-community-client
+  mysql-community-server mysql-server psmisc
+0 upgraded, 13 newly installed, 0 to remove and 5 not upgraded.
+Need to get 33.8 MB of archives.
+After this operation, 241 MB of additional disk space will be used.
+Get:1 http://repo.mysql.com/apt/debian/ jessie/mysql-5.7 mysql-common amd64 5.7.21-1debian8 [63.6 kB]
+Get:2 http://repo.mysql.com/apt/debian/ jessie/mysql-5.7 mysql-community-client amd64 5.7.21-1debian8 [7889 kB]
+Get:3 http://repo.mysql.com/apt/debian/ jessie/mysql-5.7 mysql-client amd64 5.7.21-1debian8 [12.4 kB]
+Get:4 http://repo.mysql.com/apt/debian/ jessie/mysql-5.7 mysql-community-server amd64 5.7.21-1debian8 [25.1 MB]
+Get:5 http://repo.mysql.com/apt/debian/ jessie/mysql-5.7 mysql-server amd64 5.7.21-1debian8 [12.4 kB]
+Get:6 http://deb.debian.org/debian/ jessie/main libsasl2-modules-db amd64 2.1.26.dfsg1-13+deb8u1 [67.1 kB]
+Get:7 http://deb.debian.org/debian/ jessie/main libsasl2-2 amd64 2.1.26.dfsg1-13+deb8u1 [105 kB]
+Get:8 http://deb.debian.org/debian/ jessie/main libaio1 amd64 0.3.110-1 [9312 B]
+Get:9 http://deb.debian.org/debian/ jessie/main libnuma1 amd64 2.0.10-1 [32.5 kB]
+Get:10 http://deb.debian.org/debian/ jessie/main psmisc amd64 22.21-2 [119 kB]
+Get:11 http://deb.debian.org/debian/ jessie/main libmecab2 amd64 0.996-1.1 [245 kB]
+Get:12 http://deb.debian.org/debian/ jessie/main init-system-helpers all 1.22 [14.0 kB]
+Get:13 http://deb.debian.org/debian/ jessie/main libsasl2-modules amd64 2.1.26.dfsg1-13+deb8u1 [101 kB]
+[91mdebconf: delaying package configuration, since apt-utils is not installed
+[0mFetched 33.8 MB in 2s (13.5 MB/s)
+Selecting previously unselected package libsasl2-modules-db:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 8888 files and directories currently installed.)
+Preparing to unpack .../libsasl2-modules-db_2.1.26.dfsg1-13+deb8u1_amd64.deb ...
+Unpacking libsasl2-modules-db:amd64 (2.1.26.dfsg1-13+deb8u1) ...
+Selecting previously unselected package libsasl2-2:amd64.
+Preparing to unpack .../libsasl2-2_2.1.26.dfsg1-13+deb8u1_amd64.deb ...
+Unpacking libsasl2-2:amd64 (2.1.26.dfsg1-13+deb8u1) ...
+Selecting previously unselected package libaio1:amd64.
+Preparing to unpack .../libaio1_0.3.110-1_amd64.deb ...
+Unpacking libaio1:amd64 (0.3.110-1) ...
+Selecting previously unselected package libnuma1:amd64.
+Preparing to unpack .../libnuma1_2.0.10-1_amd64.deb ...
+Unpacking libnuma1:amd64 (2.0.10-1) ...
+Selecting previously unselected package mysql-common.
+Preparing to unpack .../mysql-common_5.7.21-1debian8_amd64.deb ...
+Unpacking mysql-common (5.7.21-1debian8) ...
+Selecting previously unselected package mysql-community-client.
+Preparing to unpack .../mysql-community-client_5.7.21-1debian8_amd64.deb ...
+Unpacking mysql-community-client (5.7.21-1debian8) ...
+Selecting previously unselected package mysql-client.
+Preparing to unpack .../mysql-client_5.7.21-1debian8_amd64.deb ...
+Unpacking mysql-client (5.7.21-1debian8) ...
+Selecting previously unselected package psmisc.
+Preparing to unpack .../psmisc_22.21-2_amd64.deb ...
+Unpacking psmisc (22.21-2) ...
+Selecting previously unselected package libmecab2.
+Preparing to unpack .../libmecab2_0.996-1.1_amd64.deb ...
+Unpacking libmecab2 (0.996-1.1) ...
+Selecting previously unselected package init-system-helpers.
+Preparing to unpack .../init-system-helpers_1.22_all.deb ...
+Unpacking init-system-helpers (1.22) ...
+Selecting previously unselected package mysql-community-server.
+Preparing to unpack .../mysql-community-server_5.7.21-1debian8_amd64.deb ...
+Unpacking mysql-community-server (5.7.21-1debian8) ...
+Selecting previously unselected package libsasl2-modules:amd64.
+Preparing to unpack .../libsasl2-modules_2.1.26.dfsg1-13+deb8u1_amd64.deb ...
+Unpacking libsasl2-modules:amd64 (2.1.26.dfsg1-13+deb8u1) ...
+Selecting previously unselected package mysql-server.
+Preparing to unpack .../mysql-server_5.7.21-1debian8_amd64.deb ...
+Unpacking mysql-server (5.7.21-1debian8) ...
+Processing triggers for systemd (215-17+deb8u7) ...
+Setting up libsasl2-modules-db:amd64 (2.1.26.dfsg1-13+deb8u1) ...
+Setting up libsasl2-2:amd64 (2.1.26.dfsg1-13+deb8u1) ...
+Setting up libaio1:amd64 (0.3.110-1) ...
+Setting up libnuma1:amd64 (2.0.10-1) ...
+Setting up mysql-common (5.7.21-1debian8) ...
+update-alternatives: using /etc/mysql/my.cnf.fallback to provide /etc/mysql/my.cnf (my.cnf) in auto mode
+Setting up mysql-community-client (5.7.21-1debian8) ...
+Setting up mysql-client (5.7.21-1debian8) ...
+Setting up psmisc (22.21-2) ...
+Setting up libmecab2 (0.996-1.1) ...
+Setting up init-system-helpers (1.22) ...
+Setting up mysql-community-server (5.7.21-1debian8) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (TERM is not set, so the dialog frontend is not usable.)
+debconf: falling back to frontend: Readline
+update-alternatives: using /etc/mysql/mysql.cnf to provide /etc/mysql/my.cnf (my.cnf) in auto mode
+invoke-rc.d: policy-rc.d denied execution of start.
+Setting up libsasl2-modules:amd64 (2.1.26.dfsg1-13+deb8u1) ...
+Setting up mysql-server (5.7.21-1debian8) ...
+Processing triggers for libc-bin (2.19-18+deb8u10) ...
+Processing triggers for systemd (215-17+deb8u7) ...
+[91msed -Ei s/^(bind-address|log)/#&/ [0m[91m/etc/mysql/mysql.conf.d/mysqld.cnf [0m[91m
+[0mRemoving intermediate container 81f6fbb1f772
+ ---> 9335b6c7d471
+Step 12/17 : VOLUME /var/lib/mysql
+ ---> Running in b491f9130829
+Removing intermediate container b491f9130829
+ ---> d886cb076e29
+Step 13/17 : COPY docker-entrypoint.sh /usr/local/bin/
+ ---> 6d2978959623
+Step 14/17 : RUN ln -s usr/local/bin/docker-entrypoint.sh /entrypoint.sh # backwards compat
+ ---> Running in b9cf14bf9a58
+Removing intermediate container b9cf14bf9a58
+ ---> ce7b88292fca
+Step 15/17 : ENTRYPOINT ["docker-entrypoint.sh"]
+ ---> Running in c6f5aca4b6b3
+Removing intermediate container c6f5aca4b6b3
+ ---> 4e9e1455c704
+Step 16/17 : EXPOSE 3306
+ ---> Running in 94bd763ff3f1
+Removing intermediate container 94bd763ff3f1
+ ---> 1db89df78ec5
+Step 17/17 : CMD ["mysqld"]
+ ---> Running in 3259ee4149e5
+Removing intermediate container 3259ee4149e5
+ ---> a8f1532a8805
+Successfully built a8f1532a8805
+Successfully tagged com.acybp--mysql:5.7

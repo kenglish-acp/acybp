@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: com.acybp--mysql:5.7
+    volumes:
+      - acybp-db-data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: aplaintextpassword
+
+  wordpress:
+    image: com.acybp--wordpress-php7.2-apache:4.9.4
+    volumes:
+      - acybp-html-data:/var/www/html
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_PASSWORD: aplaintextpassword
+
+volumes:
+    acybp-db-data:
+    acybp-html-data:
